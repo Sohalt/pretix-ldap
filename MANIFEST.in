@@ -1,0 +1,3 @@
+recursive-include pretix_ldap/static *
+recursive-include pretix_ldap/templates *
+recursive-include pretix_ldap/locale *
