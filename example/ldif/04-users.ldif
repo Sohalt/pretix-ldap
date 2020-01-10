@@ -1,0 +1,21 @@
+dn: mail=admin@example.com,ou=people,dc=example,dc=com
+objectClass: inetOrgPerson
+cn: admin
+givenName: admin
+sn: admin
+mail: admin@example.com
+userPassword: password
+
+dn: mail=jd@example.com,ou=people,dc=example,dc=com
+objectClass: inetOrgPerson
+cn: John
+givenName: JD
+sn: Doe
+mail: jd@example.com
+userPassword: password
+
+dn: cn=pretix,ou=groups,dc=example,dc=com
+objectClass: groupOfUniqueNames
+cn: pretix
+uniqueMember: mail=admin@example.com,ou=people,dc=example,dc=com
+uniqueMember: mail=jd@example.com,ou=people,dc=example,dc=com

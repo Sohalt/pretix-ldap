@@ -1,7 +1,4 @@
 import os
-from distutils.command.build import build
-
-from django.core import management
 from setuptools import setup, find_packages
 
 
@@ -12,20 +9,9 @@ except:
     long_description = ''
 
 
-class CustomBuild(build):
-    def run(self):
-        management.call_command('compilemessages', verbosity=1)
-        build.run(self)
-
-
-cmdclass = {
-    'build': CustomBuild
-}
-
-
 setup(
     name='pretix-ldap',
-    version='1.0.0',
+    version='0.0.1',
     description='LDAP authentication backend for pretix',
     long_description=long_description,
     url='https://github.com/Sohalt/pretix-ldap',
@@ -33,10 +19,9 @@ setup(
     author_email='sohalt@sohalt.net',
     license='Apache Software License',
 
-    install_requires=[],
+    install_requires=['ldap3'],
     packages=find_packages(exclude=['tests', 'tests.*']),
     include_package_data=True,
-    cmdclass=cmdclass,
     entry_points="""
 [pretix.plugin]
 pretix_ldap=pretix_ldap:PretixPluginMeta

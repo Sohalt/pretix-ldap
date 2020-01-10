@@ -1,3 +1,4 @@
+from .ldap_connector import LDAPAuthBackend
 from django.utils.translation import ugettext_lazy
 try:
     from pretix.base.plugins import PluginConfig
@@ -16,9 +17,6 @@ class PluginApp(PluginConfig):
         visible = True
         version = '1.0.0'
         compatibility = "pretix>=3.3.0"
-
-    def ready(self):
-        from . import signals  # NOQA
 
 
 default_app_config = 'pretix_ldap.PluginApp'
