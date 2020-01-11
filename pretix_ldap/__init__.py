@@ -1,4 +1,4 @@
-from .ldap_connector import LDAPAuthBackend
+from .ldap_connector import LDAPAuthBackend # noqa
 from django.utils.translation import ugettext_lazy
 try:
     from pretix.base.plugins import PluginConfig

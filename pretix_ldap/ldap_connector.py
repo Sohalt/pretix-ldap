@@ -23,24 +23,20 @@ class LDAPAuthBackend(BaseAuthBackend):
         self.search_filter_template = self.config.get('search_filter', fallback='(&(objectClass=inetOrgPerson)(mail={email}))')
         self.email_attr = self.config.get('email_attr', fallback='mail')
 
-
     @property
     def identifier(self):
         return 'pretix_ldap'
-
 
     @property
     def verbose_name(self):
         return 'LDAP Authentication'
 
-
     @property
     def login_form_fields(self):
-        placeholders = re.findall('\{([^{}]+)\}', self.search_filter_template)
-        fields = {p : forms.CharField(label=p) for p in placeholders}
+        placeholders = re.findall('{([^{}]+)}', self.search_filter_template)
+        fields = {p: forms.CharField(label=p) for p in placeholders}
         fields['password'] = forms.CharField(label=_('Password'), widget=forms.PasswordInput)
         return fields
-
 
     def form_authenticate(self, request, form_data):
         from pretix.base.models import User
@@ -62,10 +58,10 @@ class LDAPAuthBackend(BaseAuthBackend):
             return None
         email = emails[0]
         try:
-            success = self.connection.rebind(user=dn,password=password)
-        except:
+            success = self.connection.rebind(user=dn, password=password)
+        except: # noqa
             success = False
-        self.connection.rebind(self.config['BIND_DN'],self.config['BIND_PASSWORD'])
+        self.connection.rebind(self.config['BIND_DN'], self.config['BIND_PASSWORD'])
         if not success:
             # wrong password
             return None
