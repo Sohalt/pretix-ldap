@@ -1,4 +1,5 @@
 from ldap3 import Server, Connection
+from ldap3.utils.conv import escape_filter_chars
 import re
 import logging
 from django import forms
@@ -44,8 +45,10 @@ class LDAPAuthBackend(BaseAuthBackend):
     def form_authenticate(self, request, form_data):
         from pretix.base.models import User
         password = form_data['password']
-        filter = self.search_filter_template.format_map(form_data) # TODO escape
-        if not self.connection.search(self.search_base, filter, attributes = [self.email_attr]):
+        placeholders = re.findall('{([^{}]+)}', self.search_filter_template)
+        template_data = {p: escape_filter_chars(form_data[p]) for p in placeholders}
+        filter = self.search_filter_template.format_map(template_data)
+        if not self.connection.search(self.search_base, filter, attributes=[self.email_attr]):
             # user not found
             return None
         res = self.connection.response
