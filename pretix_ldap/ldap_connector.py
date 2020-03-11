@@ -33,9 +33,12 @@ class LDAPAuthBackend(BaseAuthBackend):
 
     @property
     def login_form_fields(self):
+        # create text fields for all placeholders in the search string
         placeholders = re.findall('{([^{}]+)}', self.search_filter_template)
         fields = {p: forms.CharField(label=p) for p in placeholders}
         fields['password'] = forms.CharField(label=_('Password'), widget=forms.PasswordInput)
+        # automatically focus the first field
+        list(fields.values())[0].widget.attrs['autofocus'] = 'autofocus'
         return fields
 
     def form_authenticate(self, request, form_data):
