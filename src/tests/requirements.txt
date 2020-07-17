@@ -1,0 +1,6 @@
+pytest
+flake8
+pytest-docker-compose
+requests
+lxml
+urllib3

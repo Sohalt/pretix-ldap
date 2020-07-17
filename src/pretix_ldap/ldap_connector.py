@@ -58,7 +58,8 @@ class LDAPAuthBackend(BaseAuthBackend):
             return None
         dn = res[0]['dn']
         emails = res[0]['attributes'][self.email_attr]
-        if isinstance(emails, str): # handle email being a single-valued attribute
+        # handle email being a single-valued attribute
+        if isinstance(emails, str):
             emails = [emails]
         if len(emails) != 1:
             # could not uniquely identify user email
