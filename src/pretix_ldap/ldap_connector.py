@@ -14,17 +14,17 @@ logger = logging.getLogger(__name__)
 class LDAPAuthBackend(BaseAuthBackend):
     def __init__(self):
         try:
-            self.config = config['ldap']
-            self.server = Server(self.config['bind_url'])
-            self.connection = Connection(self.server, self.config['bind_dn'], self.config['bind_password'], auto_bind=True)
-            self.search_base = self.config['search_base']
+            self.config = config
+            self.server = Server(self.config.get('ldap', 'bind_url'))
+            self.connection = Connection(self.server, self.config.get('ldap', 'bind_dn'), self.config.get('ldap', 'bind_password'), auto_bind=True)
+            self.search_base = self.config.get('ldap', 'search_base')
         except KeyError:
             logger.error("Please specify bind_url, bind_dn, bind_password, and search_base in [ldap] section in pretix.cfg")
-        self.search_filter_template = self.config.get('search_filter', fallback='(&(objectClass=inetOrgPerson)(mail={email}))')
+        self.search_filter_template = self.config.get('ldap', 'search_filter', fallback='(&(objectClass=inetOrgPerson)(mail={email}))')
         self.placeholders = re.findall('{([^{}]+)}', self.search_filter_template)
         if self.placeholders == {}:
             logger.error("Please specify at least one placeholder in your search_filter")
-        self.email_attr = self.config.get('email_attr', fallback='mail')
+        self.email_attr = self.config.get('ldap', 'email_attr', fallback='mail')
 
     @property
     def identifier(self):
@@ -70,7 +70,7 @@ class LDAPAuthBackend(BaseAuthBackend):
             success = self.connection.rebind(user=dn, password=password)
         except: # noqa
             success = False
-        self.connection.rebind(self.config['bind_dn'], self.config['bind_password'])
+        self.connection.rebind(self.config.get('ldap', 'bind_dn'), self.config.get('ldap', 'bind_password'))
         if not success:
             # wrong password
             return None
