@@ -70,7 +70,10 @@ class LDAPAuthBackend(BaseAuthBackend):
             success = self.connection.rebind(user=dn, password=password)
         except: # noqa
             success = False
-        self.connection.rebind(self.config.get('ldap', 'bind_dn'), self.config.get('ldap', 'bind_password'))
+        bind_dn = self.config.get('ldap', 'bind_dn')
+        bind_password = self.config.get('ldap', 'bind_password')
+        if bind_dn and bind_password:
+            self.connection.rebind(bind_dn, bind_password)
         if not success:
             # wrong password
             return None
