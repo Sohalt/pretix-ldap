@@ -3,6 +3,7 @@ from ldap3.utils.conv import escape_filter_chars
 import re
 import logging
 from django import forms
+from django.contrib import messages
 from django.utils.translation import ugettext_lazy as _
 from pretix.settings import config
 from pretix.base.auth import BaseAuthBackend
@@ -25,6 +26,7 @@ class LDAPAuthBackend(BaseAuthBackend):
         if self.placeholders == {}:
             logger.error("Please specify at least one placeholder in your search_filter")
         self.email_attr = self.config.get('ldap', 'email_attr', fallback='mail')
+        self.uuid_attr = self.config.get('ldap', 'unique_attr', fallback='entryUUID')
 
     @property
     def identifier(self):
@@ -45,6 +47,7 @@ class LDAPAuthBackend(BaseAuthBackend):
 
     def form_authenticate(self, request, form_data):
         from pretix.base.models import User
+        from pretix.base.models.auth import EmailAddressTakenError
         password = form_data['password']
         template_data = {p: escape_filter_chars(form_data[p]) for p in self.placeholders}
         filter = self.search_filter_template.format_map(template_data)
@@ -57,6 +60,7 @@ class LDAPAuthBackend(BaseAuthBackend):
             logger.warn("Could not uniquely identify user. Check your search_filter")
             return None
         dn = res[0]['dn']
+        uuid = res[0]['attributes'][self.uuid_attr]
         emails = res[0]['attributes'][self.email_attr]
         # handle email being a single-valued attribute
         if isinstance(emails, str):
@@ -75,15 +79,17 @@ class LDAPAuthBackend(BaseAuthBackend):
             # wrong password
             return None
         try:
-            user = User.objects.get(email=email)
-            if user.auth_backend == self.identifier:
-                return user
-            else:
-                # user already registered with different backend
-                return None
-        except User.DoesNotExist:
-            # user does not exist yet -> create new
-            user = User(email=email)
-            user.auth_backend = self.identifier
-            user.save()
+            user = User.objects.get_or_create_for_backend(
+                self.identifier,
+                uuid,
+                email,
+                set_always={},
+                set_on_creation={},
+            )
+        except EmailAddressTakenError:
+            messages.error(
+                request, _('We cannot create your user account as a user account in this system '
+                           'already exists with the same email address.')
+            )
+        else:
             return user
