@@ -18,7 +18,7 @@ def wait_for_pretix(module_scoped_container_getter):
     request_session.mount('http://', HTTPAdapter(max_retries=retries))
 
     pretix = module_scoped_container_getter.get("pretix").network_info[0]
-    api_url = "http://%s:%s/" % ("localhost", pretix.host_port)
+    api_url = "http://%s:%s" % ("localhost", pretix.host_port)
     print(api_url)
     assert request_session.get(api_url)
     return api_url
