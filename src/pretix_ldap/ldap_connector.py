@@ -60,7 +60,10 @@ class LDAPAuthBackend(BaseAuthBackend):
             logger.warn("Could not uniquely identify user. Check your search_filter")
             return None
         dn = res[0]['dn']
-        uuid = res[0]['attributes'][self.uuid_attr]
+        if self.uuid_attr == "dn":
+            uuid = res[0]['dn']
+        else:
+            uuid = res[0]['attributes'][self.uuid_attr]
         emails = res[0]['attributes'][self.email_attr]
         # handle email being a single-valued attribute
         if isinstance(emails, str):
