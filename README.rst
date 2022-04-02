@@ -18,19 +18,24 @@ Options are:
 
 ``bind_url``
     The url of the ldap server (required)
+    Example: ``ldap://ldap.example.com``
 
 ``bind_dn``
     The dn of the account to use to query the ldap server (required)
+    Example: ``cn=readonly,dc=example,dc=com``
 
 ``bind_password``
     The password of the account to use to query the ldap server (required)
+    Example: ``changeme``
 
 ``search_base``
     The search base (required)
+    Example: ``ou=people,dc=example,dc=com``
 
 ``search_filter``
     Filter to search for users. You can use placeholders in curly braces, which will get populated from form fields of the same name.
     Default: ``(&(objectClass=inetOrgPerson)(mail={email}))``
+    Example: ``(&(objectClass=inetOrgPerson)(memberOf=cn=pretix,ou=groups,dc=example,dc=com)(mail={email}))``
 
 ``email_attr``
     The name of an attribute that can be used to retrieve the user's email address
