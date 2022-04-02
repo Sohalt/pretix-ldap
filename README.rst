@@ -36,6 +36,11 @@ Options are:
     The name of an attribute that can be used to retrieve the user's email address
     Default: ``mail``
 
+``unique_attr``
+    The name of a stable attribute that can be used to uniquely identify a user
+    Default: ``dn``
+    Example: ``entryUUID``
+
 Example Deployment
 ------------------
 
