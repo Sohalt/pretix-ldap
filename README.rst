@@ -68,6 +68,26 @@ Development setup
 5. Restart your local pretix server. You can now use the plugin from this repository for your events by enabling it in
    the 'plugins' tab in the settings.
 
+Running CI linter and tests locally
+-------------
+
+1. Set up docker
+
+2. Install test dependencies: `pip install -r src/tests/requirements.txt`
+
+3. Run linter:
+
+```
+cd src/
+flake8
+```
+
+4. Run tests:
+
+```
+cd src/tests
+pytest
+```
 
 License
 -------
