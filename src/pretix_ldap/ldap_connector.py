@@ -26,7 +26,7 @@ class LDAPAuthBackend(BaseAuthBackend):
         if self.placeholders == {}:
             logger.error("Please specify at least one placeholder in your search_filter")
         self.email_attr = self.config.get('ldap', 'email_attr', fallback='mail')
-        self.uuid_attr = self.config.get('ldap', 'unique_attr', fallback='entryUUID')
+        self.uuid_attr = self.config.get('ldap', 'unique_attr', fallback='dn')
 
     @property
     def identifier(self):
