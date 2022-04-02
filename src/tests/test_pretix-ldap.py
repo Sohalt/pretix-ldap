@@ -12,10 +12,8 @@ pytest_plugins = ["docker_compose"]
 def wait_for_pretix(module_scoped_container_getter):
     """Wait for pretix to become responsive"""
     request_session = requests.Session()
-    retries = Retry(total=10,
-                    backoff_factor=10,
-                    status_forcelist=[500, 502, 503, 504])
-    request_session.mount('http://', HTTPAdapter(max_retries=retries))
+    retries = Retry(total=10, backoff_factor=10, status_forcelist=[500, 502, 503, 504])
+    request_session.mount("http://", HTTPAdapter(max_retries=retries))
 
     pretix = module_scoped_container_getter.get("pretix").network_info[0]
     api_url = "http://%s:%s" % ("localhost", pretix.host_port)
@@ -28,16 +26,24 @@ def wait_for_pretix(module_scoped_container_getter):
 def login(wait_for_pretix):
     s = requests.Session()
     try:
+
         def _login(email, password):
             res = s.get(wait_for_pretix + "/control/login?backend=pretix_ldap")
             assert "Log in" in res.text
             dom = etree.HTML(res.text)
-            csrf_token = dom.xpath('//input[@name="csrfmiddlewaretoken"]')[0].get('value')
-            s.post(res.url,
-                   data={'csrfmiddlewaretoken': csrf_token,
-                         'email': email,
-                         'password': password})
+            csrf_token = dom.xpath('//input[@name="csrfmiddlewaretoken"]')[0].get(
+                "value"
+            )
+            s.post(
+                res.url,
+                data={
+                    "csrfmiddlewaretoken": csrf_token,
+                    "email": email,
+                    "password": password,
+                },
+            )
             return s, wait_for_pretix
+
         yield _login
     finally:
         s.post(wait_for_pretix + "/control/logout")

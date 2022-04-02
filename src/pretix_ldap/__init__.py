@@ -1,5 +1,6 @@
-from .ldap_connector import LDAPAuthBackend # noqa
+from .ldap_connector import LDAPAuthBackend  # noqa
 from django.utils.translation import ugettext_lazy
+
 try:
     from pretix.base.plugins import PluginConfig
 except ImportError:
@@ -7,16 +8,16 @@ except ImportError:
 
 
 class PluginApp(PluginConfig):
-    name = 'pretix_ldap'
-    verbose_name = 'pretix LDAP'
+    name = "pretix_ldap"
+    verbose_name = "pretix LDAP"
 
     class PretixPluginMeta:
-        name = ugettext_lazy('pretix LDAP')
-        author = 'sohalt'
-        description = ugettext_lazy('LDAP authentication backend for pretix')
+        name = ugettext_lazy("pretix LDAP")
+        author = "sohalt"
+        description = ugettext_lazy("LDAP authentication backend for pretix")
         visible = True
-        version = '0.1.0'
+        version = "0.1.0"
         compatibility = "pretix>=4.7.0"
 
 
-default_app_config = 'pretix_ldap.PluginApp'
+default_app_config = "pretix_ldap.PluginApp"
