@@ -69,25 +69,22 @@ Development setup
    the 'plugins' tab in the settings.
 
 Running CI linter and tests locally
--------------
+-----------------------------------
 
 1. Set up docker
 
 2. Install test dependencies: `pip install -r src/tests/requirements.txt`
 
-3. Run linter:
+3. Run linter::
 
-```
-cd src/
-flake8
-```
+    cd src/
+    flake8
 
-4. Run tests:
+4. Run tests::
 
-```
-cd src/tests
-pytest
-```
+    cd src/tests
+    pytest
+
 
 License
 -------
