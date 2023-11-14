@@ -1,5 +1,5 @@
 from .ldap_connector import LDAPAuthBackend  # noqa
-from django.utils.translation import ugettext_lazy
+from django.utils.translation import gettext_lazy
 
 try:
     from pretix.base.plugins import PluginConfig
@@ -12,9 +12,9 @@ class PluginApp(PluginConfig):
     verbose_name = "pretix LDAP"
 
     class PretixPluginMeta:
-        name = ugettext_lazy("pretix LDAP")
+        name = gettext_lazy("pretix LDAP")
         author = "sohalt"
-        description = ugettext_lazy("LDAP authentication backend for pretix")
+        description = gettext_lazy("LDAP authentication backend for pretix")
         visible = True
         version = "0.1.2"
         compatibility = "pretix>=4.7.0"

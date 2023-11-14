@@ -4,7 +4,7 @@ import re
 import logging
 from django import forms
 from django.contrib import messages
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from pretix.settings import config
 from pretix.base.auth import BaseAuthBackend
 
