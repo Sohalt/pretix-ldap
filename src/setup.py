@@ -13,7 +13,7 @@ except:  # NOQA
 
 setup(
     name="pretix-ldap",
-    version="0.1.2",
+    version="0.2.0",
     description="LDAP authentication backend for pretix",
     long_description=long_description,
     url="https://github.com/Sohalt/pretix-ldap",
