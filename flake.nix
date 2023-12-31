@@ -7,10 +7,10 @@
       pkgs = nixpkgs.legacyPackages.${system};
     in {
       devShells.default = pkgs.mkShell {
-        packages = [
-          (pkgs.python3.withPackages (ps: with ps; [
+        packages = with pkgs;[
+          podman-compose
+          (python3.withPackages (ps: with ps; [
             pytest
-            pytest-docker-compose
             flake8
             requests
             lxml

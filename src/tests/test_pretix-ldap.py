@@ -1,22 +1,26 @@
+import subprocess
 import pytest
 import requests
 from urllib3.util.retry import Retry
 from requests.adapters import HTTPAdapter
 from lxml import etree
 
-pytest_plugins = ["docker_compose"]
 
-
-# Invoking this fixture: 'module_scoped_container_getter' starts all services
 @pytest.fixture(scope="module")
-def wait_for_pretix(module_scoped_container_getter):
+def start_pretix():
+    subprocess.Popen(["podman-compose", "up"])
+    yield
+    subprocess.run(["podman-compose", "down"])
+
+
+@pytest.fixture(scope="module")
+def wait_for_pretix(start_pretix):
     """Wait for pretix to become responsive"""
     request_session = requests.Session()
     retries = Retry(total=10, backoff_factor=10, status_forcelist=[500, 502, 503, 504])
     request_session.mount("http://", HTTPAdapter(max_retries=retries))
 
-    pretix = module_scoped_container_getter.get("pretix").network_info[0]
-    api_url = "http://%s:%s" % ("localhost", pretix.host_port)
+    api_url = "http://localhost:8080"
     print(api_url)
     assert request_session.get(api_url)
     return api_url

@@ -1,7 +1,7 @@
 version: '3.6'
 services:
   ldap:
-    image: osixia/openldap
+    image: docker.io/osixia/openldap
     container_name: ldap
     restart: always
     command: --copy-service # needed so it doesn't modify ./ldap/ldif
@@ -14,23 +14,15 @@ services:
       - LDAP_READONLY_USER_PASSWORD=changeme
     volumes:
       - ./ldif:/container/service/slapd/assets/config/bootstrap/ldif/custom
-    
-  db:
-    image: postgres:11-alpine
-    restart: always
-    container_name: db
-    environment:
-      - POSTGRES_DB=pretix
-      - POSTGRES_USER=pretix
-      - POSTGRES_PASSWORD=pgpw
 
   redis:
-    image: redis:alpine
+    image: docker.io/redis:alpine
     restart: always
     container_name: redis
 
   pretix:
     build: ./../..
+    container_name: pretix
     volumes:
       - ./pretix/etc/pretix:/etc/pretix
     restart: always
@@ -46,4 +38,4 @@ services:
       - redis
     command: all
     ports:
-      - "80:80"
+      - "8080:80"

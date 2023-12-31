@@ -1,4 +1,4 @@
-FROM pretix/standalone:stable
+FROM docker.io/pretix/standalone:stable
 USER root
 WORKDIR /pretix-ldap/
 #COPY src/requirements.txt .
