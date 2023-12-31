@@ -71,9 +71,9 @@ Development setup
 Running CI linter and tests locally
 -----------------------------------
 
-1. Set up docker
+1. [Install nix](https://github.com/DeterminateSystems/nix-installer)
 
-2. Install test dependencies: `pip install -r src/tests/requirements.txt`
+2. Enter devshell: `nix develop`
 
 3. Run linter::
 
