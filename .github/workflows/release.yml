@@ -30,20 +30,20 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
       - name: Set up Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v5
         with:
           python-version: '3.x'
       - name: Install dependencies
         run: |
-          pip install -U setuptools wheel
+          pip install build
       - name: Build
         run: |
           cd src
-          python setup.py sdist bdist_wheel
+          python -m build
       - uses: actions/upload-artifact@v4
         with:
           name: dist
-          path: dist
+          path: src/dist
   release:
     name: Create Release
     runs-on: ubuntu-latest
