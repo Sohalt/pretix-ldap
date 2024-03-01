@@ -75,14 +75,16 @@ Running CI linter and tests locally
 
 2. Enter devshell: `nix develop`
 
-3. Run linter::
+3. Build package::
 
-    cd src/
+    python -m build
+
+4. Run linter::
+
     flake8
 
-4. Run tests::
+5. Run tests::
 
-    cd src/tests
     pytest
 
 
