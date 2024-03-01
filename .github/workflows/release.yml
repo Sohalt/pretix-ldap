@@ -35,7 +35,7 @@ jobs:
           python-version: '3.x'
       - name: Install dependencies
         run: |
-          pip install -U setuptools wheel twine
+          pip install -U setuptools wheel
       - name: Build
         run: |
           cd src
@@ -49,6 +49,6 @@ jobs:
       id-token: write
     steps:
       - name: Publish to PyPi
-        uses: pypa/gh-action-pypi
+        uses: pypa/gh-action-pypi-publish@release/v1
         with:
           repository-url: https://test.pypi.org/legacy/-publish@release/v1
