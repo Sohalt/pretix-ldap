@@ -71,7 +71,7 @@ Development setup
 Running CI linter and tests locally
 -----------------------------------
 
-1. [Install nix](https://github.com/DeterminateSystems/nix-installer)
+1. `Install nix`_
 
 2. Enter devshell: `nix develop`
 
@@ -98,3 +98,4 @@ Released under the terms of the Apache License 2.0
 
 .. _pretix: https://github.com/pretix/pretix
 .. _pretix development setup: https://docs.pretix.eu/en/latest/development/setup.html
+.. _Install nix: https://github.com/DeterminateSystems/nix-installer
