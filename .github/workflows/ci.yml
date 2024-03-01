@@ -10,16 +10,16 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - uses: DeterminateSystems/nix-installer-action@main
-    - uses: nicknovitski/nix-develop@v1
-    - name: Lint with flake8
-      run: |
-        cd src
-        flake8 --version
-        flake8
-    - name: Test with pytest
-      run: |
-        cd src/tests
-        pytest --version
-        pytest
+      - uses: actions/checkout@v4
+      - uses: DeterminateSystems/nix-installer-action@main
+      - uses: nicknovitski/nix-develop@v1
+      - name: Lint with flake8
+        run: |
+          cd src
+          flake8 --version
+          flake8
+      - name: Test with pytest
+        run: |
+          cd src/tests
+          pytest --version
+          pytest
