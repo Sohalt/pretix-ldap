@@ -16,7 +16,7 @@ class PluginApp(PluginConfig):
         author = "sohalt"
         description = gettext_lazy("LDAP authentication backend for pretix")
         visible = True
-        version = "0.2.1"
+        version = "0.2.2"
         compatibility = "pretix>=2023.06.0"
 
 
