@@ -10,6 +10,7 @@
         packages = with pkgs;[
           podman-compose
           (python3.withPackages (ps: with ps; [
+            build
             pytest
             flake8
             requests

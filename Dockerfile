@@ -1,10 +1,8 @@
 FROM docker.io/pretix/standalone:stable
 USER root
 WORKDIR /pretix-ldap/
-#COPY src/requirements.txt .
-#RUN PYTHONPATH=$PYTHONPATH:/pretix/src pip3 install -r requirements.txt
-COPY src/ .
-RUN PYTHONPATH=$PYTHONPATH:/pretix/src pip3 install .
+COPY dist/*.whl pretix_ldap.whl
+RUN PYTHONPATH=$PYTHONPATH:/pretix/src pip3 install pretix_ldap.whl
 USER pretixuser
 RUN cd /pretix/src && make production
 
