@@ -26,7 +26,10 @@ jobs:
   release:
     name: Create Release
     runs-on: ubuntu-latest
+    environment: release
     needs: test
+    permissions:
+      id-token: write
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -42,12 +45,7 @@ jobs:
           cd src
           python setup.py sdist bdist_wheel
       - name: Publish to PyPi
-        env:
-          TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
-          TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
-        run: |
-          cd src
-          twine upload dist/*
+        uses: pypa/gh-action-pypi-publish@release/v1
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
