@@ -10,7 +10,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
     - uses: DeterminateSystems/nix-installer-action@main
     - uses: nicknovitski/nix-develop@v1
     - name: Lint with flake8
@@ -23,16 +23,12 @@ jobs:
         cd src/tests
         pytest --version
         pytest
-  release:
-    name: Create Release
-    runs-on: ubuntu-latest
-    environment: release
+  build:
     needs: test
-    permissions:
-      id-token: write
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
@@ -44,8 +40,18 @@ jobs:
         run: |
           cd src
           python setup.py sdist bdist_wheel
+  release:
+    name: Create Release
+    runs-on: ubuntu-latest
+    environment: release
+    needs: build
+    permissions:
+      id-token: write
+    steps:
       - name: Publish to PyPi
-        uses: pypa/gh-action-pypi-publish@release/v1
+        uses: pypa/gh-action-pypi
+        with:
+          repository-url: https://test.pypi.org/legacy/-publish@release/v1
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
