@@ -21,7 +21,7 @@ services:
     container_name: redis
 
   pretix:
-    build: ./../..
+    build: ./.
     container_name: pretix
     volumes:
       - ./pretix/etc/pretix:/etc/pretix

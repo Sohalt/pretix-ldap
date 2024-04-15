@@ -8,9 +8,17 @@ from lxml import etree
 
 @pytest.fixture(scope="module")
 def start_pretix():
+    import os
+
+    print(os.getcwd())
+    print(os.system("ls"))
+    print("start pretix")
     subprocess.Popen(["podman-compose", "up"])
+    print("started pretix")
     yield
+    print("stop pretix")
     subprocess.run(["podman-compose", "down"])
+    print("stopped pretix")
 
 
 @pytest.fixture(scope="module")

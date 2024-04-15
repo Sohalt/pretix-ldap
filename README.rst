@@ -71,18 +71,24 @@ Development setup
 Running CI linter and tests locally
 -----------------------------------
 
-1. [Install nix](https://github.com/DeterminateSystems/nix-installer)
+1. `Install nix`_
 
 2. Enter devshell: `nix develop`
 
-3. Run linter::
+3. Build package::
 
-    cd src/
+    python -m build
+
+4. Run linter::
+
     flake8
 
-4. Run tests::
+5. Run tests::
 
-    cd src/tests
+    cp -r dist tests
+
+    cd tests
+
     pytest
 
 
@@ -98,3 +104,4 @@ Released under the terms of the Apache License 2.0
 
 .. _pretix: https://github.com/pretix/pretix
 .. _pretix development setup: https://docs.pretix.eu/en/latest/development/setup.html
+.. _Install nix: https://github.com/DeterminateSystems/nix-installer
